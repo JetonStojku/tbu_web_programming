@@ -1,0 +1,9 @@
+{% extends "blog/base.html" %} {% block content %} {% for post in posts %}
+<div class="card mb-4">
+  <div class="card-body">
+    <h2><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+    <p class="text-muted">By {{ post.author }} | {{ post.date_posted }}</p>
+    <p>{{ post.content|truncatechars:200 }}</p>
+  </div>
+</div>
+{% endfor %} {% endblock %}

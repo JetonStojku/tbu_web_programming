@@ -1,0 +1,12 @@
+{% if user.is_authenticated %}
+<div class="comment-form mt-4">
+  <h4>Add Comment</h4>
+  <form method="POST">
+    {% csrf_token %} {{ comment_form.content }} {% if
+    comment_form.content.errors %}
+    <div class="alert alert-danger mt-2">{{ comment_form.content.errors }}</div>
+    {% endif %}
+    <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+  </form>
+</div>
+{% endif %}
