@@ -132,3 +132,9 @@ blog_project/
 - [Django Documentation](https://docs.djangoproject.com/)
 - [Bootstrap Documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 - [Python Virtual Environments Guide](https://docs.python.org/3/tutorial/venv.html)
+
+## Courses
+
+- [Database Design Course - Learn how to design and plan a database for beginners](https://www.youtube.com/watch?v=ztHopE5Wnpc)
+- [Learn PostgreSQL Tutorial - Full Course for Beginners](https://www.youtube.com/watch?v=qw--VYLpxG4)
+- [Django Tutorial for Beginners](https://youtube.com/playlist?list=PLsyeobzWxl7r2ukVgTqIQcl-1T0C2mzau&si=p4vGt6cnz8zzOK-P)
