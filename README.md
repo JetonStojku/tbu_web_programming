@@ -138,3 +138,7 @@ blog_project/
 - [Database Design Course - Learn how to design and plan a database for beginners](https://www.youtube.com/watch?v=ztHopE5Wnpc)
 - [Learn PostgreSQL Tutorial - Full Course for Beginners](https://www.youtube.com/watch?v=qw--VYLpxG4)
 - [Django Tutorial for Beginners](https://youtube.com/playlist?list=PLsyeobzWxl7r2ukVgTqIQcl-1T0C2mzau&si=p4vGt6cnz8zzOK-P)
+
+## Midterm Exam link
+
+[JavaScript Essentials 1](https://www.netacad.com/courses/javascript-essentials-1?courseLang=en-US)
