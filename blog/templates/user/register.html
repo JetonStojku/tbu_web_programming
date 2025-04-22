@@ -1,0 +1,89 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="card-title text-center mb-4">Create Account</h2>
+        
+        {% if form.errors %}
+        <div class="alert alert-danger">
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+              <p class="mb-1">{{ error }}</p>
+            {% endfor %}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" novalidate>
+          {% csrf_token %}
+          
+          <div class="row g-3">
+            {# Username #}
+            <div class="col-12">
+              <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+              <input 
+                type="text" 
+                name="username" 
+                id="{{ form.username.id_for_label }}"
+                class="form-control"
+                required
+                autofocus
+              >
+            </div>
+
+            {# Email #}
+            <div class="col-12">
+              <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+              <input 
+                type="email" 
+                name="email" 
+                id="{{ form.email.id_for_label }}"
+                class="form-control"
+                required
+              >
+            </div>
+
+            {# Password #}
+            <div class="col-md-6">
+              <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
+              <input 
+                type="password" 
+                name="password1" 
+                id="{{ form.password1.id_for_label }}"
+                class="form-control"
+                required
+              >
+            </div>
+
+            {# Confirm Password #}
+            <div class="col-md-6">
+              <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
+              <input 
+                type="password" 
+                name="password2" 
+                id="{{ form.password2.id_for_label }}"
+                class="form-control"
+                required
+              >
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 mt-4 py-2">
+            Register
+          </button>
+        </form>
+
+        <div class="mt-4 text-center">
+          <p class="mb-0">Already have an account?</p>
+          <a href="{% url 'login' %}" class="btn btn-outline-secondary mt-2">
+            Sign In
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

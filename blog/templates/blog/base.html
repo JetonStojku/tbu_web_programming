@@ -14,9 +14,17 @@
         <div class="navbar-nav">
           {% if user.is_authenticated %}
           <a class="nav-link" href="{% url 'post-create' %}">New Post</a>
-          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          <li class="nav-item">
+            <form action="{% url 'logout' %}" method="post" class="form-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link nav-link">
+                Logout
+              </button>
+            </form>
+          </li>
           {% else %}
           <a class="nav-link" href="{% url 'login' %}">Login</a>
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
           {% endif %}
         </div>
       </div>
