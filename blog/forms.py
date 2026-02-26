@@ -10,7 +10,16 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'content']
         widgets = {
-            'content': forms.Textarea(attrs={'rows': 4}),
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter post title'
+            }),
+            'content': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'style': 'min-height: 200px;',
+                'placeholder': 'Write your post content here'
+            }),
         }
 
     def clean_title(self):
