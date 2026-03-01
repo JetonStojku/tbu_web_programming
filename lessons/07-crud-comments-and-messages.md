@@ -1,73 +1,78 @@
-# Lesson 07: CRUD, Comments, Permissions, and Messages
+# Lesson 07: CRUD, Reviews, Comments, Permissions, and Messages
 
 ## Lesson Goal
 
-Understand CRUD flow implementation and identify permission/message gaps that should be improved.
+Understand end-to-end movie CRUD and user interaction flows (ratings/comments) with correct permission checks.
 
 ## What Students Will Build/Learn
 
-- Trace complete post CRUD behavior in class-based views.
-- Trace comment create/delete behavior in function-based views.
-- Understand ownership checks and where they are missing.
-- Understand Django messages lifecycle and template rendering requirement.
+- Trace movie CRUD behavior with class-based views.
+- Trace review and comment actions with function-based views.
+- Understand staff-only vs owner-only authorization rules.
+- Understand how Django messages are generated and rendered globally.
 
 ## Project Files Covered
 
 - `blog/views.py`
 - `blog/urls.py`
-- `blog/templates/blog/post_detail.html`
-- `blog/templates/blog/post_confirm_delete.html`
+- `blog/templates/blog/movie_list.html`
+- `blog/templates/blog/movie_detail.html`
+- `blog/templates/blog/movie_form.html`
+- `blog/templates/blog/movie_confirm_delete.html`
 - `blog/templates/blog/base.html`
 
 ## Step-by-Step Explanation
 
-1. Post CRUD mapping:
-   - list: `PostListView`
-   - detail: `PostDetailView`
-   - create: `PostCreateView`
-   - update: `PostUpdateView`
-   - delete: `PostDeleteView`.
-2. Comment flow mapping:
-   - add comment: `add_comment`
-   - delete comment: `comment_delete`.
-3. Ownership and authorization currently implemented:
-   - `PostDeleteView.get_queryset()` filters by current author.
-   - `comment_delete` checks `request.user == comment.author`.
-4. Messages usage in views:
-   - success/error messages created via `django.contrib.messages`.
-5. Essential gaps in the current codebase (must be addressed in future improvement):
-   1. `PostUpdateView` is missing author restriction.
-   2. `blog/templates/blog/post_confirm_delete.html` is empty.
-   3. Messages are created in views but not rendered in `blog/templates/blog/base.html`.
-   4. `post_detail.html` checks `comment_form.content.errors`, but `PostDetailView` does not provide `comment_form` context.
+1. Movie CRUD mapping (staff-only):
+   - list: `MovieListView` (public read)
+   - detail: `MovieDetailView` (public read)
+   - create: `MovieCreateView` (`StaffRequiredMixin`)
+   - update: `MovieUpdateView` (`StaffRequiredMixin`)
+   - delete: `MovieDeleteView` (`StaffRequiredMixin`).
+2. Review flow:
+   - add/update review: `add_or_update_movie_review` (one review per user per movie)
+   - delete review: `delete_movie_review` (owner or staff).
+3. Comment flow:
+   - add comment: `add_movie_comment`
+   - edit comment: `edit_movie_comment` (owner or staff)
+   - delete comment: `delete_movie_comment` (owner or staff).
+4. Gallery flow (staff-only):
+   - add image: `add_movie_image`
+   - delete image: `delete_movie_image`.
+5. Messages flow:
+   - success/error messages created in views.
+   - messages rendered in `blog/templates/blog/base.html`.
+6. Aggregation on movie pages:
+   - average rating and rating count shown on list/detail pages.
 
 ## Django Docs Used (5.1 links)
 
 - <https://docs.djangoproject.com/en/5.1/topics/class-based-views/generic-editing/>
+- <https://docs.djangoproject.com/en/5.1/topics/auth/default/#limiting-access-to-logged-in-users>
 - <https://docs.djangoproject.com/en/5.1/ref/contrib/messages/>
 - <https://docs.djangoproject.com/en/5.1/topics/http/shortcuts/>
-- <https://docs.djangoproject.com/en/5.1/topics/auth/default/>
 
 ## Common Mistakes
 
-- Assuming login checks are enough without object ownership checks.
-- Forgetting to render messages in a base template.
-- Using detail templates with context variables never provided by the view.
-- Leaving default/empty templates for critical operations like delete confirmation.
+- Using only login checks when a staff/owner check is also required.
+- Forgetting to use POST for delete actions.
+- Allowing duplicate review rows instead of update-on-resubmit.
+- Not showing message feedback after create/update/delete actions.
 
 ## Exercise
 
-Choose one fix and implement it as homework:
-
-- Option A: Restrict `PostUpdateView` to posts owned by the logged-in user.
-- Option B: Render flash messages in `blog/templates/blog/base.html`.
-- Option C: Add a proper delete confirmation template in `post_confirm_delete.html`.
+1. Add a staff-only genre filter page for movies.
+2. Add a minimum-rating filter (`>=4`) and show filtered results.
+3. Keep all permission checks unchanged (non-staff cannot manage movies).
 
 ## Expected Result
 
-- Students can explain where permissions are enforced and where they are missing.
-- Students can propose a clear fix for at least one identified gap.
+- Students can explain the permission matrix:
+  - public read
+  - authenticated write for own content
+  - staff moderation and movie management
+- Students can trace one complete interaction from URL -> view -> DB -> message -> template output.
 
 ### Quick Recap
 
-CRUD works functionally, but secure and maintainable Django apps require consistent ownership checks, complete templates, and visible feedback messages.
+Secure CRUD is not only about create/update/delete. It also requires role checks, ownership rules, and clear user feedback on every action.

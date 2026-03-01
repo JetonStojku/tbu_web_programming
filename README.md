@@ -18,9 +18,9 @@ Version note: all lesson examples and documentation links are pinned to **Django
 ## Course Roadmap
 
 - Lessons 01-02: project setup, architecture, URL routing, and request flow.
-- Lessons 03-04: models, migrations, forms, and validation.
-- Lessons 05-06: templates, UI rendering, authentication, and password reset flow.
-- Lessons 07-08: CRUD permissions, messages, testing baseline, and deployment checklist.
+- Lessons 03-04: models, migrations, forms, and validation for posts and movies.
+- Lessons 05-06: templates, UI rendering, authentication, and role-based access.
+- Lessons 07-08: CRUD permissions, reviews/comments, testing, and deployment checklist.
 
 ## How to Use These Lessons in Class
 
@@ -37,6 +37,10 @@ Version note: all lesson examples and documentation links are pinned to **Django
 - Password reset flow (template-based)
 - Create, Read, Update, Delete (CRUD) for blog posts
 - Comment system on posts
+- Movie manager with staff-only CRUD
+- Movie reviews (1-5 stars, one review per user per movie)
+- Movie comments with ownership and staff moderation rules
+- Movie cover uploads and gallery image uploads
 - Bootstrap-based UI templates
 - Form validation with custom rules
 - Admin interface for content management

@@ -9,15 +9,18 @@ Implement and understand end-to-end user authentication flow in Django.
 - Register new users with a custom registration form.
 - Use Django auth views for login, logout, and password reset.
 - Protect views using `login_required` and `LoginRequiredMixin`.
+- Implement staff-only management with `UserPassesTestMixin`.
+- Enforce ownership rules for review/comment edit and delete.
 - Configure password reset email backend for development.
 
 ## Project Files Covered
 
 - `blog/forms.py` (`UserRegisterForm`)
-- `blog/views.py` (`register`, protected views)
+- `blog/views.py` (`register`, protected views, `StaffRequiredMixin`, movie moderation actions)
 - `blog/urls.py` (auth routes)
 - `blog_project/settings.py` (`LOGIN_REDIRECT_URL`, `LOGIN_URL`, `LOGOUT_REDIRECT_URL`)
 - `blog/templates/user/*.html`
+- `blog/templates/blog/base.html`
 
 ## Step-by-Step Explanation
 
@@ -36,7 +39,13 @@ Implement and understand end-to-end user authentication flow in Django.
 4. Access control:
    - `@login_required` for function views
    - `LoginRequiredMixin` for class-based views.
-5. Redirect behavior:
+5. Staff-only control:
+   - `StaffRequiredMixin` for movie create/update/delete.
+   - staff-only gallery image add/delete endpoints.
+6. Ownership and moderation:
+   - users can edit/delete only their own movie comments/reviews.
+   - staff can moderate all movie comments/reviews.
+7. Redirect behavior:
    - controlled by settings in `blog_project/settings.py`.
 
 Development email backend setup (for local testing only):
@@ -73,7 +82,10 @@ python manage.py runserver
    - register
    - login/logout
    - password reset request.
-3. Confirm reset email appears in the server console output.
+3. Mark one user as staff in admin and test:
+   - staff can create/edit/delete movies
+   - non-staff gets forbidden response on movie management routes.
+4. Confirm reset email appears in the server console output.
 
 ## Expected Result
 

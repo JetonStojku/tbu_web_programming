@@ -10,7 +10,7 @@ Understand how this Django project is organized and run it locally from scratch.
 - Set up the project environment on Windows PowerShell.
 - Run the Django development server.
 - Understand the role of `manage.py`, `blog_project`, and `blog`.
-- Read key settings for apps, middleware, templates, and database.
+- Read key settings for apps, middleware, templates, database, and media uploads.
 
 ## Project Files Covered
 
@@ -19,6 +19,7 @@ Understand how this Django project is organized and run it locally from scratch.
 - `blog_project/settings.py`
 - `blog_project/urls.py`
 - `blog/apps.py`
+- `blog/models.py`
 
 ## Step-by-Step Explanation
 
@@ -32,6 +33,9 @@ Understand how this Django project is organized and run it locally from scratch.
    - `MIDDLEWARE`
    - `TEMPLATES`
    - `DATABASES`
+   - `MEDIA_URL` and `MEDIA_ROOT`
+7. Open `blog_project/urls.py` and identify development media serving:
+   - `static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)` when `DEBUG=True`.
 
 ```powershell
 python -m venv venv
@@ -47,6 +51,8 @@ Architecture map (current project):
 - `manage.py`: entry point for Django management commands.
 - `blog_project/`: project-level config (`settings.py`, `urls.py`, ASGI/WSGI files).
 - `blog/`: application logic (models, forms, views, templates, urls).
+- `blog/templates/blog/movie_*.html`: movie module UI.
+- `media/`: uploaded movie covers and gallery images in development.
 - `db.sqlite3`: local database file used in development.
 
 Version lock note:
@@ -78,6 +84,7 @@ Version lock note:
    - `DATABASES`
 3. Start the server and open:
    - `http://localhost:8000/`
+   - `http://localhost:8000/movies/`
    - `http://localhost:8000/admin/`
 
 ## Expected Result

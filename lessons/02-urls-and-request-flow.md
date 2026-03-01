@@ -10,6 +10,7 @@ Learn how Django maps incoming URLs to views and returns responses.
 - Use path converters like `<int:pk>`.
 - Use named routes and reverse URL lookup.
 - Compare class-based and function-based views in this project.
+- Trace movie module routes for list/detail/CRUD/review/comment/gallery actions.
 
 ## Project Files Covered
 
@@ -27,13 +28,14 @@ Learn how Django maps incoming URLs to views and returns responses.
    - list page (`''`)
    - detail/update/delete with `<int:pk>`
    - auth routes (`login`, `logout`, `password_reset`)
+   - movie routes (`movies/`, `movies/<int:pk>/`, review/comment/gallery endpoints)
 3. Explain route names (`name='post-detail'`) and why template links use names, not hardcoded URLs.
 4. Show reverse lookup in code:
    - `reverse('post-detail', kwargs={'pk': self.object.pk})` in `PostCreateView`
-   - `get_absolute_url` in `Post` model.
+   - `get_absolute_url` in both `Post` and `Movie` models.
 5. Compare view styles used here:
    - Class-based views for core CRUD (`ListView`, `DetailView`, etc.)
-   - Function-based views for comment actions and registration.
+   - Function-based views for review/comment/gallery actions and registration.
 
 ```powershell
 python manage.py runserver
@@ -43,6 +45,8 @@ Test route examples in browser:
 
 - `http://localhost:8000/`
 - `http://localhost:8000/post/1/`
+- `http://localhost:8000/movies/`
+- `http://localhost:8000/movies/1/`
 - `http://localhost:8000/login/`
 
 ## Django Docs Used (5.1 links)
@@ -65,6 +69,7 @@ Test route examples in browser:
 2. Implement a minimal view in `blog/views.py` that returns plain text or a simple template.
 3. Add a link to the new route in `blog/templates/blog/base.html`.
 4. Verify route lookup by name using `{% url 'about' %}`.
+5. Bonus: add a `movies/top-rated/` route and map it to a view placeholder.
 
 ## Expected Result
 

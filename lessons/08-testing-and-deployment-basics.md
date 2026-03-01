@@ -6,10 +6,10 @@ Establish a practical baseline for automated testing and safe deployment configu
 
 ## What Students Will Build/Learn
 
-- Understand current test status and what is missing.
-- Plan and start writing useful Django tests.
+- Understand the current automated test coverage in this project.
+- Extend existing Django tests for new movie features.
 - Apply a deployment safety checklist for settings and secrets.
-- Separate development defaults from production requirements.
+- Separate development defaults from production requirements, including media files.
 
 ## Project Files Covered
 
@@ -18,6 +18,7 @@ Establish a practical baseline for automated testing and safe deployment configu
 - `blog/forms.py`
 - `blog/views.py`
 - `blog_project/settings.py`
+- `blog_project/urls.py`
 
 ## Step-by-Step Explanation
 
@@ -28,30 +29,36 @@ python -m pip install -r requirements.txt
 ```
 
 2. Current state:
-   - `blog/tests.py` only contains the default placeholder.
-3. Practical test plan for this project:
-   - Model tests (`Post`, `Comment`, `__str__`, relationships).
-   - Form tests (`clean_title`, `clean_content`, `clean_email`).
-   - View/auth tests (login required for create/comment/delete, ownership restrictions).
+   - `blog/tests.py` contains a movie-focused test suite (model, permission, flow, and render checks).
+   - Test database is created automatically during `manage.py test`.
+3. Covered scenarios include:
+   - `MovieReview` uniqueness and stars validation.
+   - anonymous vs authenticated behavior on movie actions.
+   - non-staff blocked from movie management routes.
+   - owner/staff moderation rules for reviews/comments.
+   - review upsert behavior (single row per user/movie).
+   - list/detail rendering with rating aggregate output.
 4. Run tests:
 
 ```powershell
 python manage.py test
 ```
 
-5. Deployment baseline checklist (must be reviewed before production):
+5. Run checks before deployment:
+
+```powershell
+python manage.py check
+python manage.py check --deploy
+```
+
+6. Deployment baseline checklist (must be reviewed before production):
    - `DEBUG = False`
    - `ALLOWED_HOSTS` configured
    - secure `SECRET_KEY` from environment variable
    - production email backend and credentials
    - static files strategy
-   - run `check --deploy` before release.
-
-```powershell
-python manage.py check --deploy
-```
-
-6. Environment variable direction (conceptual starter):
+   - media files strategy (`MEDIA_URL` / `MEDIA_ROOT` in development; cloud/static server in production)
+7. Environment variable direction (conceptual starter):
    - avoid hardcoding secrets in `settings.py`
    - load secret values from OS environment in production.
 
@@ -71,9 +78,9 @@ python manage.py check --deploy
 
 ## Exercise
 
-1. Add two tests in `blog/tests.py`:
-   - one form validation test (invalid short title/comment)
-   - one auth/permission test (anonymous user cannot create post)
+1. Add two extra tests in `blog/tests.py`:
+   - invalid gallery image upload handling
+   - staff-only access assertion for `movie-image-add`
 2. Run tests and capture output.
 
 ```powershell
@@ -83,7 +90,7 @@ python manage.py test blog
 ## Expected Result
 
 - Students can run tests and understand what each test protects.
-- Students can explain the minimum safe settings changes needed for deployment.
+- Students can explain the minimum safe settings changes needed for deployment, including media file handling.
 
 ### Quick Recap
 
