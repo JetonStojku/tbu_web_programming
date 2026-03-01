@@ -1,0 +1,71 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h3 class="mb-0">{% if form.instance.pk %}Edit Movie{% else %}Add New Movie{% endif %}</h3>
+      </div>
+      <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% if form.non_field_errors %}
+          <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label">{{ form.title.label }}</label>
+            {{ form.title }}
+            {% if form.title.errors %}<div class="text-danger small">{{ form.title.errors }}</div>{% endif %}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.description.label }}</label>
+            {{ form.description }}
+            {% if form.description.errors %}<div class="text-danger small">{{ form.description.errors }}</div>{% endif %}
+          </div>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">{{ form.year.label }}</label>
+              {{ form.year }}
+              {% if form.year.errors %}<div class="text-danger small">{{ form.year.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">{{ form.genre.label }}</label>
+              {{ form.genre }}
+              {% if form.genre.errors %}<div class="text-danger small">{{ form.genre.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">{{ form.duration_minutes.label }}</label>
+              {{ form.duration_minutes }}
+              {% if form.duration_minutes.errors %}<div class="text-danger small">{{ form.duration_minutes.errors }}</div>{% endif %}
+            </div>
+          </div>
+          <div class="mt-3 mb-3">
+            <label class="form-label">{{ form.director.label }}</label>
+            {{ form.director }}
+            {% if form.director.errors %}<div class="text-danger small">{{ form.director.errors }}</div>{% endif %}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.cover.label }}</label>
+            {{ form.cover }}
+            {% if form.cover.errors %}<div class="text-danger small">{{ form.cover.errors }}</div>{% endif %}
+          </div>
+
+          {% if form.instance.pk and form.instance.cover %}
+          <div class="mb-3">
+            <small class="text-muted d-block mb-2">Current cover:</small>
+            <img src="{{ form.instance.cover.url }}" alt="Current cover" style="max-height: 220px;" class="img-thumbnail">
+          </div>
+          {% endif %}
+
+          <div class="d-flex justify-content-between">
+            <a href="{% if form.instance.pk %}{% url 'movie-detail' form.instance.pk %}{% else %}{% url 'movie-list' %}{% endif %}" class="btn btn-outline-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save Movie</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

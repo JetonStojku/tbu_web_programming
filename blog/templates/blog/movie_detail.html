@@ -1,0 +1,176 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card shadow-sm">
+      {% if movie.cover %}
+      <img src="{{ movie.cover.url }}" class="card-img-top" alt="{{ movie.title }} cover" style="height: 460px; object-fit: cover;">
+      {% endif %}
+      <div class="card-body">
+        <h2 class="card-title">{{ movie.title }}</h2>
+        <p class="mb-1"><strong>Year:</strong> {{ movie.year }}</p>
+        <p class="mb-1"><strong>Genre:</strong> {{ movie.genre }}</p>
+        <p class="mb-1"><strong>Duration:</strong> {{ movie.duration_minutes }} min</p>
+        <p class="mb-1"><strong>Director:</strong> {{ movie.director }}</p>
+        <p class="mb-0"><strong>Average Rating:</strong>
+          {% if movie.rating_count %}
+            {{ movie.avg_rating|floatformat:1 }}/5 ({{ movie.rating_count }} ratings)
+          {% else %}
+            No ratings yet
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+    {% if user.is_staff %}
+    <div class="d-flex gap-2 mt-3">
+      <a href="{% url 'movie-update' movie.pk %}" class="btn btn-outline-secondary w-100">Edit Movie</a>
+      <a href="{% url 'movie-delete' movie.pk %}" class="btn btn-outline-danger w-100">Delete Movie</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h4>Description</h4>
+        <p class="mb-0">{{ movie.description|linebreaks }}</p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="mb-0">Gallery</h4>
+        </div>
+
+        {% if movie.gallery_images.all %}
+        <div class="row g-3 mb-3">
+          {% for gallery_image in movie.gallery_images.all %}
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img src="{{ gallery_image.image.url }}" class="card-img-top" alt="Gallery image" style="height: 180px; object-fit: cover;">
+              <div class="card-body p-2">
+                <p class="small mb-2">{{ gallery_image.caption|default:"No caption" }}</p>
+                {% if user.is_staff %}
+                <form method="post" action="{% url 'movie-image-delete' gallery_image.pk %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger w-100">Remove</button>
+                </form>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted">No gallery images yet.</p>
+        {% endif %}
+
+        {% if user.is_staff %}
+        <hr>
+        <h6>Add Gallery Image</h6>
+        <form method="post" action="{% url 'movie-image-add' movie.pk %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-2">{{ image_form.image }}</div>
+          <div class="mb-2">{{ image_form.caption }}</div>
+          <button type="submit" class="btn btn-primary btn-sm">Upload Image</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h4 class="mb-3">Ratings</h4>
+        {% if user.is_authenticated %}
+        <div class="row g-2 align-items-end mb-3">
+          <div class="col-md-8">
+            <form method="post" action="{% url 'movie-review' movie.pk %}" class="row g-2 align-items-end">
+              {% csrf_token %}
+              <div class="col-md-8">
+                <label class="form-label">Your Rating</label>
+                {{ review_form.stars }}
+              </div>
+              <div class="col-md-4">
+                <button type="submit" class="btn btn-primary w-100">Save Rating</button>
+              </div>
+            </form>
+          </div>
+          {% if user_review %}
+          <div class="col-md-4">
+            <form method="post" action="{% url 'movie-review-delete' user_review.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-danger w-100">Delete My Rating</button>
+            </form>
+          </div>
+          {% endif %}
+        </div>
+        {% else %}
+        <p class="mb-0"><a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to rate this movie.</p>
+        {% endif %}
+
+        {% if movie.reviews.all %}
+        <ul class="list-group list-group-flush">
+          {% for review in movie.reviews.all %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span><strong>{{ review.user.username }}</strong> rated {{ review.stars }}/5</span>
+            {% if user == review.user or user.is_staff %}
+            <form method="post" action="{% url 'movie-review-delete' review.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted mb-0">No ratings yet.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="mb-3">Comments</h4>
+        {% if movie.movie_comments.all %}
+        <div class="mb-4">
+          {% for comment in movie.movie_comments.all %}
+          <div class="border rounded p-3 mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <small class="text-muted">
+                <strong>{{ comment.user.username }}</strong> • {{ comment.created_at|date:"M d, Y H:i" }}
+              </small>
+              {% if user == comment.user or user.is_staff %}
+              <div class="d-flex gap-2">
+                <a href="{% url 'movie-comment-edit' comment.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                <form method="post" action="{% url 'movie-comment-delete' comment.pk %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+              </div>
+              {% endif %}
+            </div>
+            <p class="mb-0">{{ comment.content|linebreaks }}</p>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted">No comments yet.</p>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'movie-comment-add' movie.pk %}">
+          {% csrf_token %}
+          <div class="mb-2">{{ comment_form.content }}</div>
+          <button type="submit" class="btn btn-primary">Add Comment</button>
+        </form>
+        {% else %}
+        <p class="mb-0"><a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to add a comment.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
