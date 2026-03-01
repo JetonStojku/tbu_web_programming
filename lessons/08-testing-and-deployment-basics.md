@@ -21,19 +21,25 @@ Establish a practical baseline for automated testing and safe deployment configu
 
 ## Step-by-Step Explanation
 
-1. Current state:
+1. Confirm dependencies are installed from the pinned `requirements.txt`:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+2. Current state:
    - `blog/tests.py` only contains the default placeholder.
-2. Practical test plan for this project:
+3. Practical test plan for this project:
    - Model tests (`Post`, `Comment`, `__str__`, relationships).
    - Form tests (`clean_title`, `clean_content`, `clean_email`).
    - View/auth tests (login required for create/comment/delete, ownership restrictions).
-3. Run tests:
+4. Run tests:
 
 ```powershell
 python manage.py test
 ```
 
-1. Deployment baseline checklist (must be reviewed before production):
+5. Deployment baseline checklist (must be reviewed before production):
    - `DEBUG = False`
    - `ALLOWED_HOSTS` configured
    - secure `SECRET_KEY` from environment variable
@@ -45,7 +51,7 @@ python manage.py test
 python manage.py check --deploy
 ```
 
-1. Environment variable direction (conceptual starter):
+6. Environment variable direction (conceptual starter):
    - avoid hardcoding secrets in `settings.py`
    - load secret values from OS environment in production.
 

@@ -6,6 +6,7 @@ Understand how this Django project is organized and run it locally from scratch.
 
 ## What Students Will Build/Learn
 
+- Confirm the required Python version (`3.10+`) for Django 5.1.
 - Set up the project environment on Windows PowerShell.
 - Run the Django development server.
 - Understand the role of `manage.py`, `blog_project`, and `blog`.
@@ -22,7 +23,7 @@ Understand how this Django project is organized and run it locally from scratch.
 ## Step-by-Step Explanation
 
 1. Create and activate a virtual environment.
-2. Install dependencies from `requirements.txt`.
+2. Install pinned dependencies from `requirements.txt` (`Django==5.1.7`, `Pillow==11.1.0`).
 3. Run initial migrations to create the SQLite schema.
 4. Create a superuser for admin access.
 5. Start the development server and verify both app and admin routes.
@@ -47,6 +48,12 @@ Architecture map (current project):
 - `blog_project/`: project-level config (`settings.py`, `urls.py`, ASGI/WSGI files).
 - `blog/`: application logic (models, forms, views, templates, urls).
 - `db.sqlite3`: local database file used in development.
+
+Version lock note:
+
+- Python `3.10+`
+- `Django==5.1.7`
+- `Pillow==11.1.0`
 
 ## Django Docs Used (5.1 links)
 

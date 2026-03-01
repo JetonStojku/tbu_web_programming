@@ -45,9 +45,17 @@ Version note: all lesson examples and documentation links are pinned to **Django
 
 ## Prerequisites
 
-- Python 3.8+
+- Python 3.10+
 - pip package manager
 - Basic understanding of Python and web concepts
+
+## Version Lock
+
+To keep student environments consistent, this course is pinned to:
+
+- `Django==5.1.7`
+- `Pillow==11.1.0`
+- `Bootstrap 5.3.0` via CDN (`blog/templates/blog/base.html`, CSS + JS bundle)
 
 ## Setup Instructions
 

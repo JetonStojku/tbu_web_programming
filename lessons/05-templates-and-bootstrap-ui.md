@@ -23,7 +23,7 @@ Understand how Django templates render dynamic content and how Bootstrap is used
 
 1. Open `blog/templates/blog/base.html`:
    - common page shell
-   - Bootstrap CDN inclusion
+   - Bootstrap 5.3.0 CDN inclusion (CSS + JS bundle)
    - navigation links
    - `{% block content %}` placeholder.
 2. Inspect inheritance in child templates:
@@ -45,6 +45,9 @@ Render checks:
 - Home list rendering from `posts` context.
 - Post detail rendering including comments.
 - Form rendering for create/update pages.
+- Confirm Bootstrap assets are loaded from `blog/templates/blog/base.html`:
+  - `bootstrap.min.css` (5.3.0)
+  - `bootstrap.bundle.min.js` (5.3.0)
 
 ## Django Docs Used (5.1 links)
 
