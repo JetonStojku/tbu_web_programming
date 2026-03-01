@@ -1,24 +1,47 @@
 # Django Blog Application
 
-A simple blog application built with Django for the Web Programming course.
+A teaching project for introducing Django through a practical blog application.
 
-## Features
+## Course Lessons (Start Here)
 
-- User authentication (Login/Logout)
-- Create, Read, Update, Delete (CRUD) blog posts
-- Comment system for posts
-- Responsive design with Bootstrap
-- Form validation
+Version note: all lesson examples and documentation links are pinned to **Django 5.1.x**.
+
+1. [Lesson 01 - Project Setup and Architecture](lessons/01-project-setup-and-architecture.md)
+2. [Lesson 02 - URLs and Request Flow](lessons/02-urls-and-request-flow.md)
+3. [Lesson 03 - Models and Migrations](lessons/03-models-and-migrations.md)
+4. [Lesson 04 - Forms and Validation](lessons/04-forms-and-validation.md)
+5. [Lesson 05 - Templates and Bootstrap UI](lessons/05-templates-and-bootstrap-ui.md)
+6. [Lesson 06 - Authentication and User Flows](lessons/06-authentication-and-user-flows.md)
+7. [Lesson 07 - CRUD, Comments, Permissions, Messages](lessons/07-crud-comments-and-messages.md)
+8. [Lesson 08 - Testing and Deployment Basics](lessons/08-testing-and-deployment-basics.md)
+
+## Course Roadmap
+
+- Lessons 01-02: project setup, architecture, URL routing, and request flow.
+- Lessons 03-04: models, migrations, forms, and validation.
+- Lessons 05-06: templates, UI rendering, authentication, and password reset flow.
+- Lessons 07-08: CRUD permissions, messages, testing baseline, and deployment checklist.
+
+## How to Use These Lessons in Class
+
+- Suggested pacing: 8 sessions, 75-90 minutes per lesson.
+- Classroom pattern per lesson:
+  1. 15-20 min concept explanation
+  2. 30-40 min live coding walkthrough in this repo
+  3. 15-20 min student exercise and recap
+- Keep students focused on project files listed in each lesson before introducing extra theory.
+
+## Features in This Project
+
+- User authentication (register, login, logout)
+- Password reset flow (template-based)
+- Create, Read, Update, Delete (CRUD) for blog posts
+- Comment system on posts
+- Bootstrap-based UI templates
+- Form validation with custom rules
 - Admin interface for content management
-- CSRF protection
+- CSRF-protected POST forms
 - SQLite database (default)
-
-## Create a new django project and application
-
-- new django project
-  - django-admin startproject profiles_project .
-- new django application
-  - python manage.py startapp profiles_api
 
 ## Prerequisites
 
@@ -30,115 +53,81 @@ A simple blog application built with Django for the Web Programming course.
 
 ### 1. Clone the repository
 
-```bash
+```powershell
 git clone https://github.com/JetonStojku/tbu_web_programming.git
+cd tbu_web_programming
 ```
 
 ### 2. Create and activate virtual environment
 
-```bash
+```powershell
 python -m venv venv
-# Windows
-venv\Scripts\activate
-# macOS/Linux
-source venv/bin/activate
+.\venv\Scripts\Activate.ps1
 ```
 
 ### 3. Install dependencies
 
-```bash
+```powershell
 pip install -r requirements.txt
 ```
 
 ### 4. Run migrations
 
-```bash
+```powershell
 python manage.py migrate
 ```
 
 ### 5. Create superuser (admin account)
 
-```bash
+```powershell
 python manage.py createsuperuser
 ```
 
 ### 6. Run development server
 
-```bash
+```powershell
 python manage.py runserver
 ```
 
-## Project Structure
-
-```bash
-blog_project/
-├── blog/
-│   ├── migrations/       # Database migration files
-│   ├── templates/        # HTML templates
-│   │   └── blog/
-│   ├── forms.py          # Form definitions
-│   ├── models.py         # Database models
-│   ├── urls.py           # App URL configuration
-│   └── views.py          # View functions/classes
-├── blog_project/
-│   ├── settings.py       # Project settings
-│   ├── urls.py           # Main URL configuration
-│   └── wsgi.py           # WSGI configuration
-└── manage.py             # Django command-line utility
-```
-
-## Key Components
-
-### Models
-
-- `Post`: Blog posts with title, content, author, and timestamps
-- `Comment`: Comments associated with posts
-
-### Views
-
-- Class-based views for CRUD operations
-- Authentication mixins for authorization
-- Function-based view for post details with comments
-
-### Templates
-
-- Bootstrap-powered responsive design
-- Reusable base template
-- Form error handling
-- Conditional rendering based on authentication status
-
 ## Accessing the Application
 
-1. Development server: <http://localhost:8000>
+1. Main app: <http://localhost:8000>
 2. Admin interface: <http://localhost:8000/admin>
 
-## Development Practices
+## Project Structure
 
-1. Always work in the virtual environment
-2. Use `./manage.py runserver` for local development
-3. Create new database migrations when changing models:
+```text
+blog_project/
+blog/
+lessons/
+manage.py
+requirements.txt
+db.sqlite3
+README.md
+```
 
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
+## Development Workflow
 
-4. Use Git for version control
-5. Follow Django's MTV (Model-Template-View) architecture
-6. Validate forms on both client and server side
+1. Always work inside the virtual environment.
+2. After changing models, run:
 
-## Resources
+```powershell
+python manage.py makemigrations
+python manage.py migrate
+```
 
-- [Django Documentation](https://docs.djangoproject.com/)
-- [Bootstrap Documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
-- [Python Virtual Environments Guide](https://docs.python.org/3/tutorial/venv.html)
+3. Run tests before class demos:
 
-## Courses
+```powershell
+python manage.py test
+```
 
-- [Database Design Course - Learn how to design and plan a database for beginners](https://www.youtube.com/watch?v=ztHopE5Wnpc)
-- [Learn PostgreSQL Tutorial - Full Course for Beginners](https://www.youtube.com/watch?v=qw--VYLpxG4)
-- [Django Tutorial for Beginners](https://youtube.com/playlist?list=PLsyeobzWxl7r2ukVgTqIQcl-1T0C2mzau&si=p4vGt6cnz8zzOK-P)
+4. Follow Django MTV architecture and keep business logic in views/forms/models, not templates.
 
-## Midterm Exam link
+## Core Learning Resources
 
-[JavaScript Essentials 1](https://www.netacad.com/courses/javascript-essentials-1?courseLang=en-US)
+- [Django 5.1 Documentation](https://docs.djangoproject.com/en/5.1/)
+- [Django 5.1 Tutorial](https://docs.djangoproject.com/en/5.1/intro/tutorial01/)
+- [Django Settings Reference (5.1)](https://docs.djangoproject.com/en/5.1/ref/settings/)
+- [Bootstrap 5.3 Documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- [Python Virtual Environments](https://docs.python.org/3/tutorial/venv.html)
